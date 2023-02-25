@@ -6,6 +6,7 @@ const moviesRouter = require('./Routes/moviesRoutes');
 const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(express.static('./public'));
 app.use(requestedAt);
 
 app.get('/', (req, res) => {
