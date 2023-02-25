@@ -8,7 +8,7 @@ router.param('id', moviesController.checkId);
 router
 	.route('/')
 	.get(moviesController.getAllMovies)
-	.post(moviesController.addMovie);
+	.post(moviesController.validateBody, moviesController.addMovie);
 
 router
 	.route('/:id')
