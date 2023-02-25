@@ -1,7 +1,7 @@
 const express = require('express');
 const { requestedAt } = require('./middleware');
 const morgan = require('morgan');
-const moviesRouter = require('./Routes/moviesRouter');
+const moviesRouter = require('./Routes/moviesRoutes');
 
 const app = express();
 app.use(express.json());

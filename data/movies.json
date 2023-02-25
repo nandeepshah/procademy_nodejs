@@ -46,5 +46,17 @@
         "name": "Inception",
         "releaseYear": 2010,
         "duration": 148
+    },
+    {
+        "id": 9,
+        "name": "Bohemian Rhapsody",
+        "releaseYear": 2018,
+        "duration": 134
+    },
+    {
+        "id": 10,
+        "name": "The Godfather",
+        "releaseYear": 1972,
+        "duration": 175
     }
 ]
