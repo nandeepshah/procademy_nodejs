@@ -3,6 +3,16 @@ const fs = require('fs');
 const data = fs.readFileSync('./data/movies.json');
 const movies = JSON.parse(data);
 
+exports.checkId = (req, res, next, value) => {
+	const selectedMovie = movies.find(m => m.id === Number(value));
+	if (!selectedMovie) {
+		return res
+			.status(404)
+			.json({ status: 'failed', message: `No movies with id:${value} found!` });
+	}
+	next();
+};
+
 exports.getAllMovies = (req, res) => {
 	res.status(200).json({
 		status: 'success',
@@ -14,12 +24,12 @@ exports.getAllMovies = (req, res) => {
 
 exports.getMovie = (req, res) => {
 	const { id } = req.params;
-	const selectedMovie = movies.find(m => m.id === Number(id));
-	if (!selectedMovie) {
-		return res
-			.status(404)
-			.json({ status: 'failed', message: `No movies with id:${id} found!` });
-	}
+	// const selectedMovie = movies.find(m => m.id === Number(id));
+	// if (!selectedMovie) {
+	// 	return res
+	// 		.status(404)
+	// 		.json({ status: 'failed', message: `No movies with id:${id} found!` });
+	// }
 	return res
 		.status(200)
 		.json({ status: 'success', data: { movie: selectedMovie } });
@@ -43,11 +53,11 @@ exports.updateMovie = (req, res) => {
 
 	const movieToUpdate = movies.find(m => m.id === id);
 
-	if (!movieToUpdate) {
-		return res
-			.status(404)
-			.json({ status: 'failed', message: `No movies with id:${id} found!` });
-	}
+	// if (!movieToUpdate) {
+	// 	return res
+	// 		.status(404)
+	// 		.json({ status: 'failed', message: `No movies with id:${id} found!` });
+	// }
 	const indexOfMovie = movies.indexOf(movieToUpdate);
 	const updatedMovie = { ...movieToUpdate, ...req.body };
 	movies[indexOfMovie] = updatedMovie;
@@ -65,11 +75,11 @@ exports.deleteMovie = (req, res) => {
 
 	const movieToDelete = movies.find(m => m.id === id);
 
-	if (!movieToDelete) {
-		return res
-			.status(404)
-			.json({ status: 'failed', message: `No movies with id:${id} found!` });
-	}
+	// if (!movieToDelete) {
+	// 	return res
+	// 		.status(404)
+	// 		.json({ status: 'failed', message: `No movies with id:${id} found!` });
+	// }
 	const indexOfMovie = movies.indexOf(movieToDelete);
 	movies.splice(indexOfMovie, 1);
 	fs.writeFile('./data/movies.json', JSON.stringify(movies), (err, data) => {
