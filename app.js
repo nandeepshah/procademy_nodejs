@@ -4,8 +4,11 @@ const morgan = require('morgan');
 const moviesRouter = require('./Routes/moviesRoutes');
 
 const app = express();
+
+if (process.env.NODE_ENV === 'development') {
+	app.use(morgan('dev'));
+}
 app.use(express.json());
-app.use(morgan('dev'));
 app.use(express.static('./public'));
 app.use(requestedAt);
 
