@@ -3,7 +3,7 @@ const moviesController = require('../Controllers/moviesController');
 
 const router = express.Router();
 
-router.param('id', moviesController.checkId);
+//router.param('id', moviesController.checkId);
 
 router
 	.route('/')
