@@ -7,10 +7,14 @@ const movieSchema = new mongoose.Schema({
 		unique: true,
 		trim: true,
 	},
-	description: String,
+	description: {
+		type: String,
+		required: [true, 'Description is required'],
+		trim: true,
+	},
 	duration: {
 		type: Number,
-		required: true,
+		required: [true, 'Duration is required'],
 	},
 	ratings: {
 		type: Number,
@@ -20,7 +24,7 @@ const movieSchema = new mongoose.Schema({
 	},
 	releaseYear: {
 		type: Number,
-		required: true,
+		required: [true, 'Relese Year is required'],
 	},
 	createdAt: {
 		type: Date,
@@ -31,6 +35,10 @@ const movieSchema = new mongoose.Schema({
 		required: [true, 'Genres is required'],
 	},
 	directors: {
+		type: [String],
+		required: [true, 'Directors is required'],
+	},
+	actors: {
 		type: [String],
 		required: [true, 'Directors is required'],
 	},
