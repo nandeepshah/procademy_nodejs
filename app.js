@@ -2,6 +2,7 @@ const express = require('express');
 const { requestedAt } = require('./middleware');
 const morgan = require('morgan');
 const moviesRouter = require('./Routes/moviesRoutes');
+const userRouter = require('./Routes/userRoutes');
 
 const app = express();
 
@@ -19,5 +20,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/movies', moviesRouter);
+app.use('/users', userRouter);
 
 module.exports = app;
