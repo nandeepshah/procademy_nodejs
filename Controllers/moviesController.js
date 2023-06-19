@@ -1,26 +1,23 @@
 const Movie = require('../Models/movieModel');
 
 exports.getAllMovies = async (req, res) => {
-	console.log(req.query);
 	try {
-		//convering the query Object to a string
+		//converting the query Object to a string
 		let queryString = JSON.stringify(req.query);
 		//using regex to replace the operators with a $ in front for Mongoose ODM
+		//this is only for mongoose ODM where the properties h
 		queryString = queryString.replace(
 			/\b(gte|gt|lte|lt)\b/g,
 			match => `$${match}`
 		);
 		//Converting the string back to an object
-		queryString = JSON.parse(queryString);
-		const movies = await Movie.find(queryString);
+		const queryObj = JSON.parse(queryString);
 
-		// const movies = await Movie.find()
-		// 	.where('duration')
-		// 	.gte(req.query.duration)
-		// 	.where('ratings')
-		// 	.gte(req.query.ratings)
-		// 	.where('price')
-		// 	.lte(req.query.price);
+		if (queryObj.hasOwnProperty('sort')) {
+			delete queryObj['sort'];
+		}
+
+		let movies = await Movie.find(queryObj).sort(req.query.sort);
 
 		res.status(200).json({
 			status: 'success',
