@@ -3,12 +3,24 @@ const Movie = require('../Models/movieModel');
 exports.getAllMovies = async (req, res) => {
 	console.log(req.query);
 	try {
-		const movies = await Movie.find(req.query);
+		//convering the query Object to a string
+		let queryString = JSON.stringify(req.query);
+		//using regex to replace the operators with a $ in front for Mongoose ODM
+		queryString = queryString.replace(
+			/\b(gte|gt|lte|lt)\b/g,
+			match => `$${match}`
+		);
+		//Converting the string back to an object
+		queryString = JSON.parse(queryString);
+		const movies = await Movie.find(queryString);
+
 		// const movies = await Movie.find()
 		// 	.where('duration')
-		// 	.equals(req.query.duration)
+		// 	.gte(req.query.duration)
 		// 	.where('ratings')
-		// 	.equals(req.query.ratings);
+		// 	.gte(req.query.ratings)
+		// 	.where('price')
+		// 	.lte(req.query.price);
 
 		res.status(200).json({
 			status: 'success',
