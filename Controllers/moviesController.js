@@ -12,7 +12,7 @@ exports.getAllMovies = async (req, res) => {
 		);
 		//Converting the string back to an object
 		const queryObj = JSON.parse(queryString);
-
+		//removing the sort field from the filter since model does not have a sort field
 		if (queryObj.hasOwnProperty('sort')) {
 			delete queryObj['sort'];
 		}
