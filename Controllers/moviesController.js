@@ -5,7 +5,7 @@ exports.getAllMovies = async (req, res) => {
 		//converting the query Object to a string
 		let queryString = JSON.stringify(req.query);
 		//using regex to replace the operators with a $ in front for Mongoose ODM
-		//this is only for mongoose ODM where the properties h
+		//this is only for mongoose ODM
 		queryString = queryString.replace(
 			/\b(gte|gt|lte|lt)\b/g,
 			match => `$${match}`
@@ -17,7 +17,18 @@ exports.getAllMovies = async (req, res) => {
 			delete queryObj['sort'];
 		}
 
-		let movies = await Movie.find(queryObj).sort(req.query.sort);
+		let query = Movie.find(queryObj);
+		// SORTING LOGIC
+		if (req.query.sort) {
+			const sortString = req.query.sort.split(',').join(' ');
+			query = query.sort(sortString);
+		} else {
+			query = query.sort('createdAt');
+		}
+
+		//LIMITING LOGIC
+
+		const movies = await query.exec();
 
 		res.status(200).json({
 			status: 'success',
